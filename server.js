@@ -7,6 +7,7 @@ var app = express();
 var done = false;
 var error = false;
 var filePath;
+var port = process.env.PORT || 3000;
 
 /*Configure the multer.*/
 
@@ -57,6 +58,6 @@ app.post('/api/photo',function(req,res){
 });
 
 /*Run the server.*/
-app.listen(3000,function(){
-  console.log("Working on port 3000");
+app.listen(port,function(){
+  console.log('Working on port ' + port);
 });
