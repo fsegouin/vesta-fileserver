@@ -11,7 +11,7 @@ var port = process.env.PORT || 3000;
 
 /*Configure the multer.*/
 
-app.use(multer({ dest: './uploads/', limits: { fileSize: 5000000 },
+app.use(multer({ dest: '/tmp/uploads', limits: { fileSize: 5000000 },
  rename: function (fieldname, filename) {
     return filename + Date.now();
   },
@@ -30,7 +30,7 @@ onFileUploadComplete: function (file) {
 },
 onFileSizeLimit: function (file) {
   console.log('Upload failed for: ', file.originalname)
-  fs.unlink('./' + file.path) // delete the partially written file
+  fs.unlink('/tmp/uploads' + file.path) // delete the partially written file
   error = true;
   return false;
 }
@@ -38,7 +38,7 @@ onFileSizeLimit: function (file) {
 
 /*Serving our uploaded images*/
 
-app.use('/uploads', express.static(__dirname + '/uploads'));
+app.use('/uploads', express.static('/tmp/uploads'));
 
 /*Handling routes.*/
 
@@ -49,11 +49,11 @@ app.get('/',function(req,res){
 app.post('/api/photo',function(req,res){
   if(done == true){
     done = false;
-    res.end(filePath);
+    res.status(200).json({error: false, file: filePath.substring(4)})
   }
   else if (error == true){
     error = false;
-    res.end('Error');
+    res.status(500).json({error: true})
   }
 });
 
