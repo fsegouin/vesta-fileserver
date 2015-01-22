@@ -8,6 +8,10 @@ Used in our Vesta project to host images.
 
 #### Usage
 
+To run the server :
+
+    npm start
+
 POST /api/photo with encoding type "multipart/form-data".
 
 The API will reply with "Error" if file is not a jpg or too big (> 4MB).
